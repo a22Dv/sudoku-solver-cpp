@@ -11,7 +11,8 @@ int main(int argc, char* argv[]) {
     // Main loop.
     while (true) {
         d.clearConsole();
-        std::cout << "sudoku-solver-cpp [1.0.0]\n";
+        std::cout << "https://github.com/a22Dv/sudoku-solver-cpp\n";
+        std::cout << "sudoku-solver-cpp [1.0.0]\n\n";
         std::string sudokuInput = "";
         bool willDisplayRealTime = true;
 

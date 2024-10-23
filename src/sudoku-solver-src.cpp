@@ -161,7 +161,7 @@ bool Main::DFS(
                 subGrids[subGridNumber].insert(i);
 
                 // Real-time update to console.
-                if (willDisplayRealTime) {
+                if (willDisplayRealTime && std::rand() % 10 == 0) {
                     d.clearConsole();
                     d.displayBoard(grid);
                 }
@@ -203,7 +203,7 @@ int Main::getNextEmptyCell(std::vector<int> &grid, int currentIndex) {
 /// @brief Displays the passed `std::vector` to console.
 /// @param grid `std::vector` that holds the number representation of the sudoku board with indices as cell numbers.
 void Display::displayBoard(std::vector<int> &grid) {
-    std::string rowDisplaySeparator = "+———+———+———+———+———+———+———+———+———+";
+    std::string rowDisplaySeparator = "+---+---+---+---+---+---+---+---+---+";
     std::stringstream board;
     std::cout << rowDisplaySeparator << '\n';
     for (int i = 0; i < boardSideLength; ++i) {
@@ -217,6 +217,7 @@ void Display::displayBoard(std::vector<int> &grid) {
         board << "|\n" << rowDisplaySeparator << '\n';
     }
     std::cout << board.str();
+    std::cout.flush();
 }
 /// @brief Asks user if they want to exit the application.
 /// @return - `true` (if input is 'Y' or 'y')
@@ -231,7 +232,8 @@ bool Utils::exitConfirmation() {
         }
         return false;
 }
-/// @brief Clears console if `system(cls)` does not work as intended.
+/// @brief Clears console.
 void Display::clearConsole() {
-    std::cout << "\e[2J\e[1;1H"; //ANSI escape code to clear screen, move cursor to top-left.
+    system("cls");
+    //std::cout << "\e[2J\e[1;1H";
 }

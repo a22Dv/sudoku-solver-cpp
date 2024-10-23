@@ -5,31 +5,42 @@
 int main(int argc, char* argv[]) {
     Main m = Main();
     Utils u = Utils();
+    Display d = Display();
     std::string_view validChars = "123456789.-";
 
     // Main loop.
     while (true) {
+        d.clearConsole();
+        std::cout << "sudoku-solver-cpp [1.0.0]\n";
         std::string sudokuInput = "";
         bool willDisplayRealTime = true;
 
         // Get user input.
         while (true) {
-            //sudokuInput = m.getSudokuBoard(validChars); // Actual Implementation.
-            sudokuInput = "53..7....-6..195...-.98....6.-8...6...3-4..8.3..1-7...2...6-.6....28.-...419..5-....8..79"; // Debugging purposes only.
-            willDisplayRealTime = m.getRTUpdateStatus();
+            sudokuInput = m.getSudokuBoard(validChars); 
+            willDisplayRealTime = m.getRTUpdateStatus(); 
+
+            // Validate user input, break if valid, else continue.
             if (m.validateInputs(sudokuInput, validChars)) {
                 break;
             } else {
-                u.clearConsole();
+                d.clearConsole();
                 continue;
             }
         }
-        // Validate user input, break if valid, else continue.
-        // Initialize used vectors/maps/sets.
+
+        // index acts as cell ID -> number stored in cell.
+        std::vector<int> grid = {}; 
+
+        // Stores row/col/subgrid number -> numbers in corresponding row/column/subgrid.
+        std::map<int, std::unordered_set<int>> rows = {}, columns = {}, subGrids = {}; 
+
         // Fill in vectors/maps/sets.
+        m.initialize(validChars, sudokuInput, grid, rows, columns, subGrids);
+        
         // Solve sudoku board.
-        // Display real-time updates.
-        // Show final result, show initial configuration if solution cannot be found. Along with a corresponding message.
+        m.solveSudoku(d, willDisplayRealTime, grid, rows, columns, subGrids);
+
         // Ask if user wants to exit application.
         if (u.exitConfirmation()) {
             break;
